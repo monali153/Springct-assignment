@@ -1,0 +1,241 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Add Page</title>
+
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            overflow: hidden;
+        }
+
+        header {
+            background-color: #333;
+            color: #fff;
+            padding: 20px;
+            text-align: center;
+        }
+
+        nav {
+            float: left;
+            width: 20%;
+            height: 600px;
+            background-color: #f1f1f1;
+            padding: 20px;
+            box-sizing: border-box;
+        }
+
+        nav a {
+            display: block;
+            padding: 10px 0;
+            text-decoration: none;
+            color: #000;
+        }
+
+        nav a:hover {
+            background-color: #ddd;
+        }
+
+        footer {
+            background-color: #333;
+            color: #fff;
+            padding: 20px;
+            text-align: center;
+            position: fixed;
+            bottom: 0;
+            width: 100%;
+        }
+
+        .container {
+            margin-left: 20%;
+            padding: 1px 16px;
+            height: 1000px;
+            box-sizing: border-box;
+        }
+
+        .row:after {
+            content: "";
+            display: table;
+            clear: both;
+        }
+
+        .column {
+            float: left;
+            width: 100%;
+            padding: 10px;
+            height: auto;
+        }
+
+        @media screen and (min-width: 600px) {
+            .column {
+                width: 50%;
+            }
+        }
+
+        input[type=text],
+        select,
+        textarea {
+            width: 100%;
+            padding: 12px;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+            box-sizing: border-box;
+            margin-top: 6px;
+            margin-bottom: 16px;
+            resize: vertical;
+        }
+
+        input[type=submit] {
+            background-color: #333;
+            color: #fff;
+            padding: 12px 20px;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+        }
+
+        input[type=submit]:hover {
+            background-color: #ddd;
+            color: #000;
+        }
+
+        .container-table {
+            padding: 1px 16px;
+            height: auto;
+            box-sizing: border-box;
+        }
+
+        table {
+            border-collapse: collapse;
+            width: 100%;
+        }
+
+        th,
+        td {
+            text-align: left;
+            padding: 8px;
+        }
+
+        tr:nth-child(even) {
+            background-color: #f2f2f2
+        }
+
+        th {
+            background-color: #333;
+            color: white;
+        }
+    </style>
+</head>
+
+<body>
+
+    <header>
+        <h1>Web UI</h1>
+    </header>
+
+    <nav>
+        <a href="add.html">Add</a>
+        <a href="view.html">View</a>
+    </nav>
+
+    <div class="container">
+        <div class="row">
+            <div class="column">
+                <h2>Add Record</h2>
+                <form id="add-form">
+                    <label for="name">Name:</label>
+                    <input type="text" id="name" name="name" required>
+
+                    <label for="age">Age:</label>
+                    <input type="text" id="age" name="age" required>
+
+                    <label for="gender">Gender:</label>
+                    <select id="gender" name="gender" required>
+                        <option value="">Select Gender</option>
+                        <option value="male">Male</option>
+                        <option value="female">Female</option>
+                    </select>
+
+                    <label for="hobbies">Hobbies:</label>
+                    <div>
+                        <input type="checkbox" id="hobby1" name="hobbies" value="reading">
+                        <label for="hobby1">Reading</label>
+                    </div>
+                    <div>
+                        <input type="checkbox" id="hobby2" name="hobbies" value="traveling">
+                        <label for="hobby2">Traveling</label>
+                    </div>
+                    <div>
+                        <input type="checkbox" id="hobby3" name="hobbies" value="cooking">
+                        <label for="hobby3">Cooking</label>
+                    </div>
+
+                    <input type="submit" value="Submit">
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <footer>
+        <p>Footer Text</p>
+    </footer>
+
+    <script type="text/javascript">
+        // Save data to session storage on form submit
+        const form = document.getElementById('add-form');
+        form.addEventListener('submit', function (e) {
+            e.preventDefault();
+            if (validateForm()) {
+                const name = document.getElementById('name').value;
+                const age = document.getElementById('age').value;
+                const gender = document.getElementById('gender').value;
+                const hobbies = document.querySelectorAll('input[name="hobbies"]:checked');
+                const hobbiesArray = Array.from(hobbies).map(hobby => hobby.value);
+                const data = {
+                    name,
+                    age,
+                    gender,
+                    hobbies: hobbiesArray
+                };
+                let records = JSON.parse(sessionStorage.getItem('records')) || [];
+                records.push(data);
+                sessionStorage.setItem('records', JSON.stringify(records));
+                alert('Record added successfully!');
+                form.reset();
+            }
+        });
+
+        // Form validation function
+        function validateForm() {
+            const name = document.getElementById('name').value.trim();
+            const age = document.getElementById('age').value.trim();
+            const gender = document.getElementById('gender').value;
+            const hobbies = document.querySelectorAll('input[name="hobbies"]:checked');
+            if (name === '') {
+                alert('Name is required!');
+                return false;
+            }
+            if (age === '' || isNaN(age)) {
+                alert('Age is required and should be a number!');
+                return false;
+            }
+            if (gender === '') {
+                alert('Gender is required!');
+                return false;
+            }
+            if (hobbies.length === 0) {
+                alert('Please select at least one hobby!');
+                return false;
+            }
+            return true;
+        }
+    </script>
+
+</body>
+
+</html>

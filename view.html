@@ -1,0 +1,131 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>View Page</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            overflow: hidden;
+        }
+
+        header {
+            background-color: #333;
+            color: #fff;
+            padding: 10px;
+            text-align: center;
+        }
+
+        nav {
+            background-color: #f2f2f2;
+            padding: 10px;
+            width: 200px;
+            float: left;
+            height: 100vh;
+        }
+
+        nav a {
+            display: block;
+            padding: 10px;
+            color: #333;
+            text-decoration: none;
+            font-weight: bold;
+            border-bottom: 1px solid #ccc;
+        }
+
+        nav a:hover {
+            background-color: #ddd;
+        }
+
+        .container {
+            margin-left: 20%;
+            padding: 1px 16px;
+            height: 1000px;
+        }
+
+        footer {
+            background-color: #333;
+            color: #fff;
+            padding: 20px;
+            text-align: center;
+            position: fixed;
+            bottom: 0;
+            width: 100%;
+        }
+
+        table {
+            border-collapse: collapse;
+            width: 100%;
+        }
+
+        th,
+        td {
+            text-align: left;
+            padding: 8px;
+            border-bottom: 1px solid #ddd;
+        }
+
+        th {
+            background-color: #333;
+            color: #fff;
+        }
+    </style>
+</head>
+
+<body>
+
+    <header>
+        <h1>Web UI</h1>
+    </header>
+
+    <nav>
+        <a href="add.html">Add</a>
+        <a href="view.html">View</a>
+    </nav>
+
+    <div class="container">
+        <h2>Records</h2>
+        <table>
+            <thead>
+                <tr>
+                    <th>Name</th>
+                    <th>Age</th>
+                    <th>Gender</th>
+                    <th>Hobbies</th>
+                </tr>
+            </thead>
+            <tbody>
+                <!-- Loop through session storage data and display in table -->
+                <script>
+                    const records = JSON.parse(sessionStorage.getItem('records')) || [];
+                    records.forEach(record => {
+                        const row = document.createElement('tr');
+                        const nameCell = document.createElement('td');
+                        nameCell.textContent = record.name;
+                        row.appendChild(nameCell);
+                        const ageCell = document.createElement('td');
+                        ageCell.textContent = record.age;
+                        row.appendChild(ageCell);
+                        const genderCell = document.createElement('td');
+                        genderCell.textContent = record.gender;
+                        row.appendChild(genderCell);
+                        const hobbiesCell = document.createElement('td');
+                        hobbiesCell.textContent = record.hobbies.join(', ');
+                        row.appendChild(hobbiesCell);
+                        document.querySelector('tbody').appendChild(row);
+                    });
+                </script>
+            </tbody>
+        </table>
+    </div>
+
+    <footer>
+        <p>Footer Text</p>
+    </footer>
+
+</body>
+
+</html>
